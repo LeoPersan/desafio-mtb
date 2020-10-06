@@ -1,0 +1,232 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Aclonica');
+@import url('https://fonts.googleapis.com/css?family=Bahiana');
+
+// Variables
+@import 'variables';
+
+img {
+    width: 100%;
+}
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+@import "~font-awesome/scss/font-awesome";
+
+body {
+    font-family: Roboto, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+#app {
+    position: relative;
+}
+
+#loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: #00000066;
+    .fa {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+    }
+}
+
+h1 {
+    font-size: 35px;
+    line-height: 1.2;
+    letter-spacing: 0px;
+    font-weight: 600;
+    text-transform: none;
+}
+h2 {
+    font-size: 30px;
+    line-height: 1.6;
+    letter-spacing: 0px;
+    font-weight: 600;
+    text-transform: none;
+}
+h3 {
+    font-size: 20px;
+    line-height: 1.6;
+    letter-spacing: 0px;
+    font-weight: 600;
+    text-transform: none;
+}
+h4 {
+    font-size: 18px;
+    line-height: 1.6;
+    letter-spacing: 0px;
+    font-weight: 600;
+    text-transform: none;
+}
+h5 {
+    font-size: 16px;
+    line-height: 1.6;
+    letter-spacing: 0px;
+    font-weight: 600;
+    text-transform: none;
+}
+h6 {
+    font-size: 14em;
+    line-height: 1.6;
+    letter-spacing: 0px;
+    font-weight: 600;
+    text-transform: none;
+}
+@media(min-width: 576px){
+    h1 {
+        font-size: 55px;
+        line-height: 1.6;
+        letter-spacing: 0px;
+    }
+    h2 {
+        font-size: 35px;
+        line-height: 1.6;
+        letter-spacing: 0px;
+    }
+    h3 {
+        font-size: 25px;
+        line-height: 1.6;
+        letter-spacing: 0px;
+    }
+    h4 {
+        font-size: 18px;
+        line-height: 1.6;
+        letter-spacing: 0px;
+    }
+    h5 {
+        font-size: 16px;
+        line-height: 1.6;
+        letter-spacing: 0px;
+    }
+    h6 {
+        font-size: 14em;
+        line-height: 1.6;
+        letter-spacing: 0px;
+    }
+}
+@media(min-width: 960px){
+    h1 {
+        font-size: 70px;
+        line-height: 1.2;
+        letter-spacing: 0px;
+    }
+    h2 {
+        font-size: 50px;
+        line-height: 1.2;
+        letter-spacing: 0px;
+    }
+    h3 {
+        font-size: 25px;
+        line-height: 1.2;
+        letter-spacing: 0px;
+    }
+    h4 {
+        font-size: 18px;
+        line-height: 1.6;
+        letter-spacing: 0px;
+    }
+    h5 {
+        font-size: 16px;
+        line-height: 1.6;
+        letter-spacing: 0px;
+    }
+    h6 {
+        font-size: 14px;
+        line-height: 1.6;
+        letter-spacing: 0px;
+    }
+}
+
+a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+.navbar-light {
+    .navbar-brand {
+        font-size: 1.6em;
+        color: #c21f5d;
+        font-weight: bold;
+        img {
+            max-width: 200px;
+            margin-right: 10px;
+        }
+    }
+    .navbar-nav {
+        .nav-link {
+            font-size: 1.3em;
+            color:#000000;
+            font-weight: bold;
+        }
+    }
+}
+
+.embed-responsive.header img {
+    height: auto;
+}
+
+.kms, .premios, .participe {
+    font-size: 25px;
+    font-weight: 600;
+    ul {
+        li:first-child {
+            list-style: none;
+        }
+    }
+    img {
+        max-width: 56px;
+        margin-bottom: 15px;
+    }
+}
+
+.kms {
+    font-family: Aclonica;
+    line-height: 1.4;
+}
+
+.premios {
+    ul {
+        li:nth-child(2) {
+            line-height: 1;
+        }
+    }
+}
+
+.participe {
+    font-size: 55px;
+    font-family: Bahiana;
+    line-height: 1;
+}
+.black {
+    background-color: #18191d;
+    color: #ffffff;
+}
+
+.fa {
+    background-color: #fcaf3b;
+    font-size: 28px;
+    padding: 14px;
+    border-radius: 50%;
+    color: #000000;
+    width: 56px;
+    text-align: center;
+}
+
+.fa-facebook {
+    background-color: #3b5998;
+}
+
+.fa-instagram {
+    background-color: #8a49a1;
+}
+
+.fa-youtube {
+    background-color: #ee0f0f;
+}
