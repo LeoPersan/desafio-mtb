@@ -19,17 +19,16 @@ Route::get('/config/cache', function () {
 Route::get('/migrate', function () {
     Artisan::call('migrate');
 });
+
 Route::post('/frenet/{cep}/{qtde?}', 'InscricoesController@frenet');
 Route::get('/frenet/{cep}/{qtde?}', 'InscricoesController@frenet');
 
-Route::get('/', function () {
-    return redirect(route('inscricoes'));
-    return view('home');
-})->name('home');
-
-Route::get('/regulamento', function () {
-    return view('regulamento');
-})->name('regulamento');
+Route::group([], function () {
+    Route::get('/', 'HomeController@home')->name('home');
+    Route::get('/regulamento', 'HomeController@regulamento')->name('regulamento');
+    Route::get('/contato', 'HomeController@contato')->name('contato');
+    Route::post('/contato', 'HomeController@postContato');
+});
 
 Route::get('/painel', function () {
     Order::all()->map(function ($order) {
@@ -93,19 +92,6 @@ Route::get('/painel/inscricoes', function () {
 Route::get('/painel/diana', function () {
     return view('painel_diana', ['orders' => Order::whereStatus(7)->get()]);
 })->name('painel');
-
-Route::get('/contato', function () {
-    return view('contato');
-})->name('contato');
-
-Route::post('/contato', function (Contact $request) {
-    $token = Str::random(5);
-    Mail::send(new ContactUser($request, $token));
-    Mail::send(new ContactAdmin($request, $token));
-    return [
-        'message' => 'E-mail enviado com sucesso!'
-    ];
-});
 
 Route::get('/inscricoes', 'InscricoesController@inscricoes')->name('inscricoes');
 
