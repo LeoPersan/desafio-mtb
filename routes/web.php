@@ -20,14 +20,18 @@ Route::get('/migrate', function () {
     Artisan::call('migrate');
 });
 
-Route::post('/frenet/{cep}/{qtde?}', 'InscricoesController@frenet');
-Route::get('/frenet/{cep}/{qtde?}', 'InscricoesController@frenet');
-
 Route::group([], function () {
     Route::get('/', 'HomeController@home')->name('home');
     Route::get('/regulamento', 'HomeController@regulamento')->name('regulamento');
     Route::get('/contato', 'HomeController@contato')->name('contato');
     Route::post('/contato', 'HomeController@postContato');
+});
+
+Route::group(['prefix' => 'inscricoes'], function () {
+    Route::get('/', 'InscricoesController@inscricoes')->name('inscricoes');
+    Route::post('/pagamento', 'InscricoesController@pagamento')->name('pagamento');
+    Route::get('/pagamento/sucesso', 'InscricoesController@pagamentoSucesso')->name('pagamento_sucesso');
+    Route::post('/frenet/{cep}/{qtde?}', 'InscricoesController@frenet')->name('frenet');
 });
 
 Route::get('/painel', function () {
@@ -92,17 +96,6 @@ Route::get('/painel/inscricoes', function () {
 Route::get('/painel/diana', function () {
     return view('painel_diana', ['orders' => Order::whereStatus(7)->get()]);
 })->name('painel');
-
-Route::get('/inscricoes', 'InscricoesController@inscricoes')->name('inscricoes');
-
-Route::post('/pagamento', 'InscricoesController@pagamento')->name('pagamento');
-
-Route::get('/pagamento/sucesso', function () {
-    $boleto = ['link_boleto' => false];
-    if (request()->has('boleto'))
-        $boleto['link_boleto'] = request()->get('boleto');
-    return view('pagamento_sucesso', $boleto);
-})->name('pagamento_sucesso');
 
 Route::get('/pagseguro', function () {
     // mail

@@ -119,6 +119,14 @@ class InscricoesController extends Controller
         }
     }
 
+    public function pagamentoSucesso()
+    {
+        $boleto = ['link_boleto' => false];
+        if (request()->has('boleto'))
+            $boleto['link_boleto'] = request()->get('boleto');
+        return view('pagamento_sucesso', $boleto);
+    }
+
     public function frenet($cep, $qtde = 1)
     {
         $config = Frenet::init([

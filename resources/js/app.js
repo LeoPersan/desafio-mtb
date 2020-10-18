@@ -68,7 +68,7 @@ window.app = new Vue({
                 if (inscricao.metodo_envio == 'anterior') multiply++;
                 else if (inscricao.metodo_envio == 'frenet') {
                     if (!inscricao.cep.match(/\d{5}-\d{3}/)) return false
-                    await Axios.post(`/frenet/${inscricao.cep}/${multiply}`)
+                    await Axios.post(`/inscricoes/frenet/${inscricao.cep}/${multiply}`)
                         .then(response => {
                             inscricao.preco_envio = response.data.ShippingPrice
                             this.setTotal()
