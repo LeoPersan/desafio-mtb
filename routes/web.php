@@ -19,8 +19,8 @@ Route::get('/config/cache', function () {
 Route::get('/migrate', function () {
     Artisan::call('migrate');
 });
-Route::post('/frenet/{cep}/{qtde?}', 'PagSeguroController@frenet');
-Route::get('/frenet/{cep}/{qtde?}', 'PagSeguroController@frenet');
+Route::post('/frenet/{cep}/{qtde?}', 'InscricoesController@frenet');
+Route::get('/frenet/{cep}/{qtde?}', 'InscricoesController@frenet');
 
 Route::get('/', function () {
     return redirect(route('inscricoes'));
@@ -107,9 +107,9 @@ Route::post('/contato', function (Contact $request) {
     ];
 });
 
-Route::get('/inscricoes', 'PagSeguroController@inscricoes')->name('inscricoes');
+Route::get('/inscricoes', 'InscricoesController@inscricoes')->name('inscricoes');
 
-Route::post('/pagamento', 'PagSeguroController@pagamento')->name('pagamento');
+Route::post('/pagamento', 'InscricoesController@pagamento')->name('pagamento');
 
 Route::get('/pagamento/sucesso', function () {
     $boleto = ['link_boleto' => false];

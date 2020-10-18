@@ -2,18 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Pagamento;
 use App\Order;
-use App\Subscription;
-use Artistas\PagSeguro\PagSeguroFacade as PagSeguro;
 use Exception;
 use Frenet\Frenet;
 use Frenet\Shipping\Shipping;
-use GuzzleHttp\Client;
-use Illuminate\Http\Request;
+use App\Http\Requests\Pagamento;
 use Illuminate\Support\Facades\DB;
+use Artistas\PagSeguro\PagSeguroFacade as PagSeguro;
 
-class PagSeguroController extends Controller
+class InscricoesController extends Controller
 {
     public function inscricoes()
     {
