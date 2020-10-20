@@ -56,6 +56,20 @@ window.app = new Vue({
         }
     },
     methods: {
+        enviarEmails() {
+            this.loading(true)
+            Axios.get('/painel/envio_emails')
+                .then(response => {
+                    alert(`${response.data} emails enviados!`)
+                })
+                .catch(response => {
+                    console.log(response)
+                    alert(`Deu erro`)
+                })
+                .then(() => {
+                    this.loading(false)
+                })
+        },
         getBrand() {
             window.getBrand()
         },

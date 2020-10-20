@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Subscription extends Model
@@ -31,6 +32,70 @@ class Subscription extends Model
             case 'Apenas Camiseta':
                 return 60;
         }
+    }
+
+    public function getAddressAttribute()
+    {
+        switch ($this->metodo_envio) {
+            case 'local':
+                return $this->fill([
+                    'cep' => '17930000',
+                    'estado' => 'SP',
+                    'cidade' => 'Tupi Paulista',
+                    'endereco' => 'Rua Francisco Perpétuo Júnior',
+                    'numero' => '270',
+                    'complemento' => 'Sede do Rotary',
+                ]);
+            case 'anterior':
+                if (!isset($this->id)) break;
+                $anterior = Order::find($this->order_id)->subscriptions()->where('id','<',$this->id)->whereMetodoEnvio('frenet')->orderBy('id', 'desc')->first();
+                return $this->fill([
+                    'cep' => $anterior->cep,
+                    'estado' => $anterior->estado,
+                    'cidade' => $anterior->cidade,
+                    'endereco' => $anterior->endereco,
+                    'numero' => $anterior->numero,
+                    'complemento' => $anterior->complemento,
+                ]);
+        }
+        return $this;
+    }
+
+    public function getCepAttribute()
+    {
+        return $this->address->attributes['cep'];
+    }
+
+    public function getEstadoAttribute()
+    {
+        return $this->address->attributes['estado'];
+    }
+
+    public function getCidadeAttribute()
+    {
+        return $this->address->attributes['cidade'];
+    }
+
+    public function getEnderecoAttribute()
+    {
+        return $this->address->attributes['endereco'];
+    }
+
+    public function getNumeroAttribute()
+    {
+        return $this->address->attributes['numero'];
+    }
+
+    public function getComplementoAttribute()
+    {
+        return $this->address->attributes['complemento'];
+    }
+
+    public function scopeValids(Builder $builder)
+    {
+        return $builder->whereHas('order', function (Builder $builder) {
+            return $builder->whereStatus(3);
+        });
     }
 
     public function order()

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Order;
 use App\Subscription;
+use App\Mail\ValidSubscription;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -12,9 +14,6 @@ class PainelController extends Controller
 {
     public function painel()
     {
-        Order::all()->map(function ($order) {
-            $order->updateStatus();
-        });
         return view('painel', [
             'total' => Subscription::whereHas('order', function (Builder $builder) {
                 return $builder->whereIn('status', [1, 3]);
@@ -77,6 +76,13 @@ class PainelController extends Controller
         return view('painel_diana', ['orders' => Order::whereStatus(7)->get()]);
     }
 
+    public function update()
+    {
+        Order::all()->map(function ($order) {
+            $order->updateStatus();
+        });
+    }
+
     public function configCache()
     {
         Artisan::call('config:cache');
@@ -85,5 +91,17 @@ class PainelController extends Controller
     public function migrate()
     {
         Artisan::call('migrate');
+    }
+
+    public function envioEmails()
+    {
+        set_time_limit(100000);
+        $subscriptions = Subscription::valids()->whereEmailEnviado(0)->take(2)->get()->map(function ($subscription) {
+            Mail::send(new ValidSubscription($subscription));
+            $subscription->email_enviado = 1;
+            $subscription->save();
+            return $subscription;
+        });
+        return $subscriptions->count();
     }
 }

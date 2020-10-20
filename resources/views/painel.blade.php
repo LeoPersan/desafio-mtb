@@ -13,6 +13,17 @@
                     <div class="col-md-6">
                         <div class="card text-white bg-success mb-3">
                             <div class="card-header">
+                                <button class="btn btn-info" @click="enviarEmails">
+                                    Enviar Emails
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center">
+                    <div class="col-md-6">
+                        <div class="card text-white bg-success mb-3">
+                            <div class="card-header">
                                 <h3>Total</h3>
                             </div>
                             <div class="card-body">

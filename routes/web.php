@@ -19,12 +19,16 @@ Route::group(['prefix' => 'inscricoes'], function () {
 
 Route::group(['prefix' => 'painel'], function () {
     Route::get('/', 'PainelController@painel')->name('painel');
+    Route::get('/update', 'PainelController@update');
     Route::get('/pedidos', 'PainelController@pedidos')->name('painel.pedidos');
     Route::get('/inscricoes', 'PainelController@inscricoes')->name('painel.inscricoes');
     Route::get('/painel/diana', 'PainelController@diana')->name('painel.diana');
     Route::get('/config/cache', 'PainelController@configCache');
     Route::get('/migrate', 'PainelController@migrate');
+    Route::get('/envio_emails', 'PainelController@envioEmails');
+});
 
+Route::group(['prefix' => 'atleta'], function () {
     Route::get('/strava', function () {
         // dd(request()->all());
         $token = json_decode((string) (new Client)->post('https://www.strava.com/oauth/token', [
