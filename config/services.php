@@ -36,4 +36,9 @@ return [
         'token' => env('FRENET_TOKEN'),
     ],
 
+    'strava' => [
+        'id' => env('STRAVA_ID',''),
+        'secret' => env('STRAVA_SECRET',''),
+    ]
+
 ];

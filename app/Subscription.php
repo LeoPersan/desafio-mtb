@@ -3,9 +3,9 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Subscription extends Model
+class Subscription extends Authenticatable
 {
     const SIZES = ['PP', 'P', 'M', 'G', 'GG', '3G', '4G', '5G', '6G', '7G'];
 
@@ -15,7 +15,12 @@ class Subscription extends Model
 
     const STATES = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'];
 
-    protected $fillable = ['order_id', 'tipo', 'km', 'tamanho', 'nome_strava', 'email', 'metodo_envio', 'cep', 'estado', 'cidade', 'bairro', 'endereco', 'numero', 'complemento'];
+    protected $fillable = ['order_id', 'tipo', 'km', 'tamanho', 'nome_strava', 'email', 'metodo_envio', 'cep', 'estado', 'cidade', 'bairro', 'endereco', 'numero', 'complemento', 'id_athlete', 'access_token', 'refresh_token'];
+
+    public function setSenhaAttribute($value)
+    {
+        $this->attributes['senha'] = bcrypt($value);
+    }
 
     public function getDescricaoAttribute()
     {
