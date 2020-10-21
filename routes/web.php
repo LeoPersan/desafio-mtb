@@ -30,8 +30,14 @@ Route::group(['prefix' => 'painel'], function () {
 });
 
 Route::group(['prefix' => 'atleta'], function () {
+    Route::get('/login', 'AtletaLoginController@login')->name('atleta.login');
+    Route::post('/login', 'AtletaLoginController@postLogin');
+    Route::get('/logout', 'AtletaLoginController@logout')->name('logout');
+    Route::get('/password/recover', 'AtletaLoginController@passwordRecover')->name('atleta.password.recover');
+    Route::post('/password/recover', 'AtletaLoginController@postPasswordRecover');
+    Route::get('/password/reset/{token?}', 'AtletaLoginController@passwordReset')->name('atleta.password.reset');
+    Route::post('/password/reset/{token?}', 'AtletaLoginController@postPasswordReset');
     Route::get('/strava', 'AtletaController@strava');
-    Auth::routes();
     Route::group(['middleware' => 'auth:subscription'], function () {
         Route::get('/senha', 'AtletaController@senha')->name('atleta.senha');
         Route::post('/senha', 'AtletaController@postSenha');

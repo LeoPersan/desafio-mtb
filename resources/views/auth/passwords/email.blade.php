@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('password.email') }}">
+                    <form action="{{ route('atleta.password.recover') }}" @submit.prevent="post">
                         @csrf
 
                         <div class="form-group row">
