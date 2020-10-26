@@ -46,15 +46,20 @@
                         {{-- <li class="nav-item">
                             <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
                         </li> --}}
+                        @if (auth())
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('atleta') }}">{{ __('Meu Painel') }}</a>
+                        </li>
+                        @endif
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('regulamento') }}">{{ __('Regulamento') }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('inscricoes') }}">{{ __('Inscrições') }}</a>
                         </li>
-                        {{-- <li class="nav-item">
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('contato') }}">{{ __('Contato') }}</a>
-                        </li> --}}
+                        </li>
                     </ul>
                 </div>
             </div>
