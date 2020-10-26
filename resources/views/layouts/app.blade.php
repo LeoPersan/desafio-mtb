@@ -50,6 +50,9 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('atleta') }}">{{ __('Meu Painel') }}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('atleta.atvidades') }}">{{ __('Minhas Atividades') }}</a>
+                        </li>
                         @endif
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('regulamento') }}">{{ __('Regulamento') }}</a>

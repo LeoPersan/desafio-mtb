@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-12 py-5">
                 <div class="card">
                     <div class="card-header">{{ __('Dashboard') }}</div>
 
@@ -16,21 +16,22 @@
                                     <td>Data</td>
                                     <td>Distancia</td>
                                     <td>Elevação</td>
+                                    <td>Tempo</td>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($activities as $activitie)
+                                @foreach ($atividades as $atividade)
                                     <tr>
-                                        <td>{{ $activitie->id }}</td>
-                                        <td>{{ $activitie->name }}</td>
-                                        <td>{{ $activitie->start_date_local }}</td>
-                                        <td>{{ $activitie->distance }}</td>
-                                        <td>{{ $activitie->total_elevation_gain }}</td>
+                                        <td>{{ $atividade->id }}</td>
+                                        <td>{{ $atividade->name }}</td>
+                                        <td>{{ $atividade->data }}</td>
+                                        <td>{{ $atividade->distancia }}</td>
+                                        <td>{{ $atividade->ganho_de_altitude }}</td>
+                                        <td>{{ $atividade->tempo }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        {{ dd($activitie) }}
                     </div>
                 </div>
             </div>

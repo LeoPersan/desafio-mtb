@@ -54,4 +54,11 @@ class AtletaController extends Controller
         return view('atleta.home');
     }
 
+    public function atvidades()
+    {
+        return view('atleta.atividades',[
+            'atividades' => auth()->user()->activities,
+        ]);
+    }
+
 }
