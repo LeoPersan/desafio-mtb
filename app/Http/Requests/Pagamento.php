@@ -40,8 +40,8 @@ class Pagamento extends FormRequest
             'estado' => $cartao_endereco . '|in:' . implode(',', Subscription::STATES),
             'cidade' => $cartao_endereco . '|min:3',
             'bairro' => $cartao_endereco . '|min:3',
-            'endereco' => $cartao_endereco . '|regex:/(\w+\s)+/',
-            'numero' => $cartao_endereco . '|min:2',
+            'endereco' => $cartao_endereco . '|min:3',
+            'numero' => $cartao_endereco,
             'complemento' => 'nullable|min:2',
             'creditCardToken' => $cartao . '|min:10',
             'parcelas' => $cartao . '|min:1|max:12',
@@ -71,8 +71,8 @@ class Pagamento extends FormRequest
             $rules['inscricoes.' . $i . '.estado'] = $envio . '|in:' . implode(',', Subscription::STATES);
             $rules['inscricoes.' . $i . '.cidade'] = $envio . '|min:3';
             $rules['inscricoes.' . $i . '.bairro'] = $envio . '|min:3';
-            $rules['inscricoes.' . $i . '.endereco'] = $envio . '|regex:/(\w+\s)+/';
-            $rules['inscricoes.' . $i . '.numero'] = $envio . '|min:2';
+            $rules['inscricoes.' . $i . '.endereco'] = $envio . '|min:3';
+            $rules['inscricoes.' . $i . '.numero'] = $envio;
             $rules['inscricoes.' . $i . '.complemento'] = 'nullable|min:2';
         }
         return $rules;
