@@ -2,14 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Strava;
 use App\Subscription;
-use GuzzleHttp\Client;
-use Illuminate\Http\Request;
-use App\Mail\Atleta\NaoEncontrado;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use App\Http\Requests\Atleta\Senha;
 use App\Http\Requests\AtletaLogin;
 use App\Http\Requests\AtletaPasswordRecover;
 use App\Http\Requests\AtletaPasswordReset;
