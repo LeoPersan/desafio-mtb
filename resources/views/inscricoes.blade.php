@@ -303,11 +303,6 @@
                                     Cartão de Crédito
                                 </a>
                             </li>
-                            <li class="nav-item" @click="metodo_pagamento='boleto'">
-                                <a class="nav-link" data-toggle="tab" href="#boleto">
-                                    Boleto
-                                </a>
-                            </li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade show active" v-if="metodo_pagamento == 'creditCard'">
