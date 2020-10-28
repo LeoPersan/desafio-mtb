@@ -3,13 +3,14 @@
 namespace App;
 
 use DateTime;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Activitie extends Model
 {
-    const STATUS = ['Em análise', 'Inválida', 'Aprovada - Ativa', 'Aprovada - Inativa'];
+    const STATUS = ['Em análise', 'Reprovado', 'Aprovada'];
 
-    protected $fillable = ['subscription_id', 'strava_id', 'name', 'date', 'distance', 'gain_elevation', 'time', 'status'];
+    protected $fillable = ['subscription_id', 'strava_id', 'name', 'date', 'distance', 'gain_elevation', 'time', 'status', 'active'];
 
     public function subscription()
     {
@@ -34,5 +35,14 @@ class Activitie extends Model
     public function getTempoAttribute()
     {
         return gmdate('H:i:s', $this->attributes['time']);
+    }
+
+    protected static function boot()
+    {
+        static::addGlobalScope('nao_reprovado', function (Builder $builder) {
+            return $builder->where('status','!=','Reprovado');
+        });
+
+        parent::boot();
     }
 }

@@ -19,6 +19,7 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    @stack('styles')
 </head>
 
 <body>
@@ -51,7 +52,7 @@
                                 <a class="nav-link" href="{{ route('atleta') }}">{{ __('Meu Painel') }}</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('atleta.atvidades') }}">{{ __('Minhas Atividades') }}</a>
+                                <a class="nav-link" href="{{ route('atleta.atividades') }}">{{ __('Minhas Atividades') }}</a>
                             </li>
                         @endif
                         <li class="nav-item">

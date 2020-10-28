@@ -42,6 +42,7 @@ Route::group(['prefix' => 'atleta'], function () {
         Route::get('/senha', 'AtletaController@senha')->name('atleta.senha');
         Route::post('/senha', 'AtletaController@postSenha');
         Route::get('', 'AtletaController@home')->name('atleta');
-        Route::get('atvidades', 'AtletaController@atvidades')->name('atleta.atvidades');
+        Route::get('atividades', 'AtletaController@atividades')->name('atleta.atividades');
+        Route::post('atividades', 'AtletaController@postAtividades');
     });
 });

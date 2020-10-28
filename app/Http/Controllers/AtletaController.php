@@ -54,11 +54,23 @@ class AtletaController extends Controller
         return view('atleta.home');
     }
 
-    public function atvidades()
+    public function atividades()
     {
         return view('atleta.atividades',[
             'atividades' => auth()->user()->activities,
         ]);
+    }
+
+    public function postAtividades(Request $request)
+    {
+        auth()->user()->activities->map(function ($activitie) use ($request){
+            $activitie->active = in_array($activitie->id, $request->atividades??[]);
+            $activitie->save();
+        });
+        return [
+            'message' => 'Ranking atualizado com sucesso!',
+            'redirect' => route('atleta.atividades'),
+        ];
     }
 
 }
