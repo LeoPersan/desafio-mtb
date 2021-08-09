@@ -14,8 +14,25 @@ class AtletaAtividades extends Command
 
     public function handle()
     {
-        dd(Subscription::valids()->whereNotNull('refresh_token')->get()->map(function ($subscription) {
-            return (new Strava($subscription))->getActivities();
-        }));
+        Subscription::valids()->whereNotNull('refresh_token')->whereEmail('nathalia_mj@hotmail.com')->get()->map(function ($subscription) {
+            getActivities:
+            try {
+                $this->info($subscription->nome_strava);
+                $this->info((new Strava($subscription))->getActivities());
+            } catch (\Throwable $th) {
+                if (preg_match('/429 Too Many Requests/', $th->getMessage())) {
+                    for ($i=0; $i < 15; $i++) {
+                        $this->line('Esperando: faltam '.(15-$i).' minutos');
+                        sleep(60);
+                    }
+                    goto getActivities;
+                } else {
+                    $this->error(print_r([
+                        'erro' => $th->getMessage(),
+                        'subscription' => $subscription->toArray(),
+                    ]));
+                }
+            }
+        });
     }
 }

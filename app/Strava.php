@@ -32,38 +32,26 @@ class Strava extends Client
 
     public function getActivities()
     {
-        $activities = $this->get('activities?per_page=200&after=' . strtotime('2020-08-01') . '&before=' . strtotime('2020-08-30'));
-
+        $activities = $this->get('activities?per_page=200&after=' . strtotime('2020-11-01') . '&before=' . strtotime('2020-11-30 23:59:59'));
         return collect($activities)->filter(function ($activitie) {
-            return ($activitie->type == 'Ride' && $activitie->workout_type == 10 && $activitie->resource_state == 2);
+            return ($activitie->type == 'Ride' && $activitie->resource_state == 2);
         })->map(function ($activitie) {
-            $this->subscription->activities()->create([
+            $this->subscription->activities()->withoutGlobalScopes()->updateOrCreate(
+                ['strava_id'=>$activitie->id],[
                 'name' => $activitie->name,
                 'distance' => $activitie->distance,
-                'time' => $activitie->elapsed_time,
+                'time' => $activitie->moving_time,
                 'gain_elevation' => $activitie->total_elevation_gain,
-                'date'=> date('Y-m-d', strtotime($activitie->start_date_local)),
-                'strava_id'=>$activitie->id,
-                'status'=>'Em análise',
+                'max_speed' => $activitie->max_speed,
+                'date'=> date('Y-m-d', strtotime('+3 hours', strtotime($activitie->start_date_local))),
             ]);
             return $activitie;
         })->count();
     }
 
-    public function get($uri, array $options = [])
+    public function __call($method, $args)
     {
-        return json_decode((string) $this->__call('get', [
-            $uri,
-            $options
-        ])->getBody());
-    }
-
-    public function post($uri, array $options = [])
-    {
-        return json_decode((string) $this->__call('post', [
-            $uri,
-            $options
-        ])->getBody());
+        return json_decode((string) parent::__call($method,$args)->getBody());
     }
 
     public static function getToken($code)

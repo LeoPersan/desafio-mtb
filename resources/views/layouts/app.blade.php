@@ -39,22 +39,17 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
                     </ul>
-
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         {{-- <li class="nav-item">
                             <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
                         </li> --}}
-                        @if (auth()->check())
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('atleta') }}">{{ __('Meu Painel') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('atleta.atividades') }}">{{ __('Minhas Atividades') }}</a>
-                            </li>
-                        @endif
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('atleta') }}">
+                                {{ auth()->check() ? 'Meu Painel' : 'Painel do Atleta' }}
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('regulamento') }}">{{ __('Regulamento') }}</a>
                         </li>

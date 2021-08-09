@@ -25,7 +25,7 @@ class AtletaLogin extends FormRequest
     {
         return [
             'email' => 'required|exists:subscriptions,email',
-            'senha' => 'required',
+            // 'senha' => 'required',
         ];
     }
 }

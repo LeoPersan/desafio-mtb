@@ -28,9 +28,7 @@ class ValidSubscription extends Mailable
      */
     public function build()
     {
-        // return $this->to($this->subscription->email, $this->subscription->nome_strava)
-        return $this->to('leopso1990@gmail.com', 'Leonardo')
-                    ->replyTo(config('mail.from.address'),config('mail.from.name'))
+        return $this->to($this->subscription->email, $this->subscription->nome_strava)
                     ->subject(config('mail.from.name').' - Inscrição confirmada!')
                     ->markdown('emails.subscription_confirm', ['subscription' => $this->subscription]);
     }

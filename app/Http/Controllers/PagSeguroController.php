@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Pagamento;
 use App\Order;
+use App\Subscription;
+use Artistas\PagSeguro\PagSeguroFacade as PagSeguro;
 use Exception;
 use Frenet\Frenet;
 use Frenet\Shipping\Shipping;
-use App\Http\Requests\Pagamento;
+use GuzzleHttp\Client;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Artistas\PagSeguro\PagSeguroFacade as PagSeguro;
 
-class InscricoesController extends Controller
+class PagSeguroController extends Controller
 {
     public function inscricoes()
     {
-        if (date('Y-m-d H:i:s') > '2020-10-31 23:00:00')
-            return view('encerradas');
         return view('inscricoes');
     }
 
@@ -119,14 +120,6 @@ class InscricoesController extends Controller
             DB::rollback();
             throw new Exception($th->getMessage(), 1);
         }
-    }
-
-    public function pagamentoSucesso()
-    {
-        $boleto = ['link_boleto' => false];
-        if (request()->has('boleto'))
-            $boleto['link_boleto'] = request()->get('boleto');
-        return view('pagamento_sucesso', $boleto);
     }
 
     public function frenet($cep, $qtde = 1)

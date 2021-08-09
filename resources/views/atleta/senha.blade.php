@@ -9,7 +9,7 @@
                     <h3>Bem vindo ao painel do atleta!</h3>
                 </div>
                 <div class="card-body">
-                    <form action="{{route('atleta.senha')}}" @submit.prevent="post">
+                    <form action="{{$action}}" @submit.prevent="post">
                         @csrf
                         <div class="form-group">
                           <label>Senha de acesso</label>

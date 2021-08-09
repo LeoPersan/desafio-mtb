@@ -30,11 +30,16 @@ class Order extends Model
 
     public function updateStatus()
     {
-        if (!$this->pagseguro_id or $this->status == 3) return false;
+        if (!$this->pagseguro_id or in_array($this->status, [4,6,7])) return false;
         if (strlen($this->pagseguro_id) < 39)
             $this->status = PagSeguro::transaction($this->pagseguro_id, 'transaction')->status;
         else
             $this->status = PagSeguro::notification($this->pagseguro_id, 'transaction')->status;
         $this->save();
+    }
+
+    public function getTelefoneWhatsappAttribute()
+    {
+        return '55'.preg_replace('/([^\d]+)/', '', $this->telefone);
     }
 }

@@ -5,7 +5,11 @@
         <div class="row justify-content-center">
             <div class="col-12 py-5">
                 <div class="card">
-                    <div class="card-header">{{ __('Atividades') }}</div>
+                    <div class="card-header">
+                        <h2>{{ __('Atividades') }}</h2>
+                        <h4>Selecione as atividades que serão contabilizadas para o seu ranking.</h4>
+                        <h4>Você poderá fazer quantas alterações quiser até o dia 30/11/2020.</h4>
+                    </div>
                     <div class="card-body">
                         <form @submit.prevent="post">
                             @csrf

@@ -21,7 +21,14 @@ window.app = new Vue({
             qtde_com_camiseta: 0,
             qtde_sem_camiseta: 0,
             qtde_camiseta: 0,
+            sexo: window.sexo,
+            km: window.km,
+            page: 1,
         }
+    },
+    mounted() {
+        Axios.get(`/atleta/ranking?sexo=${this.sexo}&km=${this.km}`)
+            .then(response => document.querySelector('#ranking').innerHTML = response.data)
     },
     watch: {
         qtde_com_camiseta(qtde_com_camiseta) {
@@ -53,6 +60,21 @@ window.app = new Vue({
         },
         inscricoes() {
             this.setTotal()
+        },
+        sexo() {
+            this.page = 1
+            Axios.get(`/atleta/ranking?sexo=${this.sexo}&km=${this.km}&page=${this.page}`)
+                .then(response => document.querySelector('#ranking').innerHTML = response.data)
+        },
+        km() {
+            this.page = 1
+            Axios.get(`/atleta/ranking?sexo=${this.sexo}&km=${this.km}&page=${this.page}`)
+                .then(response => document.querySelector('#ranking').innerHTML = response.data)
+        },
+        page(page) {
+            if (page < 1) this.page = 1
+            Axios.get(`/atleta/ranking?sexo=${this.sexo}&km=${this.km}&page=${this.page}`)
+                .then(response => document.querySelector('#ranking').innerHTML = response.data)
         }
     },
     methods: {

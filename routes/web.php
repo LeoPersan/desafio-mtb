@@ -1,6 +1,7 @@
 <?php
 
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,10 @@ Route::group(['prefix' => 'inscricoes'], function () {
     Route::post('/frenet/{cep}/{qtde?}', 'InscricoesController@frenet')->name('frenet');
 });
 
+Route::group(['prefix' => 'atletas'], function () {
+    Route::get('/ranking', 'PainelController@ranking');
+});
+
 Route::group(['prefix' => 'painel'], function () {
     Route::get('/', 'PainelController@painel')->name('painel');
     Route::get('/update', 'PainelController@update');
@@ -27,6 +32,20 @@ Route::group(['prefix' => 'painel'], function () {
     Route::get('/config/cache', 'PainelController@configCache');
     Route::get('/migrate', 'PainelController@migrate');
     Route::get('/envio_emails', 'PainelController@envioEmails');
+    Route::get('/sem_senha', 'PainelController@semSenha');
+    Route::get('/sem_atividades', 'PainelController@semAtividades');
+    Route::get('/email_duplicado', 'PainelController@emailDuplicado');
+    Route::get('/validar_atividades', 'PainelController@validarAtividades')->name('validar_atividades');
+    Route::post('/validar_atividades', 'PainelController@postValidarAtividades');
+    Route::get('/selecionar_atividades', 'PainelController@selecionarAtividades');
+    Route::get('/certificados', 'PainelController@certificados')->name('certificados');
+    Route::get('/ranking', 'PainelController@ranking');
+    Route::get('/local', 'PainelController@local');
+    Route::get('/etiquetas', 'PainelController@etiquetas');
+    Route::post('/etiquetas/{entrega}', 'PainelController@etiquetaEntrega')->name('entregue');
+    Route::get('/teste', function () {
+        Artisan::call('atleta:atividades');
+    });
 });
 
 Route::group(['prefix' => 'atleta'], function () {
@@ -38,11 +57,13 @@ Route::group(['prefix' => 'atleta'], function () {
     Route::get('/password/reset/{token?}', 'AtletaLoginController@passwordReset')->name('atleta.password.reset');
     Route::post('/password/reset/{token?}', 'AtletaLoginController@postPasswordReset');
     Route::get('/strava', 'AtletaController@strava');
+    Route::post('/strava', 'AtletaController@nao_encontrado')->name('atleta.nao_encontrado');
+    Route::get('/obrigado', 'AtletaController@obrigado')->name('atleta.obrigado');
+    Route::get('/ranking', 'AtletaController@ranking')->name('atleta.ranking');
     Route::group(['middleware' => 'auth:subscription'], function () {
         Route::get('/senha', 'AtletaController@senha')->name('atleta.senha');
         Route::post('/senha', 'AtletaController@postSenha');
         Route::get('', 'AtletaController@home')->name('atleta');
-        Route::get('atividades', 'AtletaController@atividades')->name('atleta.atividades');
-        Route::post('atividades', 'AtletaController@postAtividades');
+        Route::post('atividades', 'AtletaController@postAtividades')->name('atleta.atividades');
     });
 });

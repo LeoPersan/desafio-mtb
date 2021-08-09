@@ -13,6 +13,8 @@ class HomeController extends Controller
 {
     public function home()
     {
+        if (date('Y-m-d H:i:s') > '2020-10-31 23:00:00')
+            return view('encerradas');
         return redirect(route('inscricoes'));
         return view('home');
     }

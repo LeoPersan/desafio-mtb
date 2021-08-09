@@ -10,6 +10,7 @@ use App\Mail\Atleta\NaoEncontrado;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\Atleta\Senha;
+use Illuminate\Support\Facades\Storage;
 
 class AtletaController extends Controller
 {
@@ -18,8 +19,10 @@ class AtletaController extends Controller
         $token = Strava::getToken($request->get('code'));
         $subscription = Subscription::whereNomeStrava($token->athlete->firstname.' '.$token->athlete->lastname)->first();
         if (!$subscription) {
-            Mail::send(new NaoEncontrado($token));
-            return view('atleta.nao_encontrado');
+            session(['token' => json_encode((array) $token)]);
+            return view('atleta.senha', [
+                'action' => route('atleta.nao_encontrado'),
+            ]);
         }
         $subscription->id_athlete = $token->athlete->id;
         $subscription->sexo = $token->athlete->sex;
@@ -27,13 +30,33 @@ class AtletaController extends Controller
         $subscription->refresh_token = $token->refresh_token;
         $subscription->senha = $token->athlete->id;
         $subscription->save();
+        if ($subscription->tipo == 'Apenas Camiseta')
+            return view('atleta.erro_apenas_camiseta');
         auth('subscription')->login($subscription);
         return redirect(route('atleta.senha'));
     }
 
+    public function nao_encontrado(Senha $request)
+    {
+        $token = json_decode(session('token'));
+        $token->senha = $request->senha;
+        Storage::put($token->athlete->firstname.' '.$token->athlete->lastname.'.txt', print_r($token, true));
+        return [
+            'message' => 'Senha alterada com sucesso!',
+            'redirect' => route('atleta.obrigado'),
+        ];
+    }
+
+    public function obrigado()
+    {
+        return view('atleta.nao_encontrado');
+    }
+
     public function senha()
     {
-        return view('atleta.senha');
+        return view('atleta.senha', [
+            'action' => route('atleta.senha'),
+        ]);
     }
 
     public function postSenha(Senha $request)
@@ -41,7 +64,7 @@ class AtletaController extends Controller
         $atleta = Subscription::find(auth()->user()->id);
         if (!Hash::check(auth()->user()->id_athlete, $atleta->senha))
             abort(422, 'Senha inválida');
-        $atleta->senha = $request->senha_nova;
+        $atleta->senha = $request->senha;
         $atleta->save();
         return [
             'message' => 'Senha alterada com sucesso!',
@@ -51,26 +74,40 @@ class AtletaController extends Controller
 
     public function home()
     {
-        return view('atleta.home');
-    }
-
-    public function atividades()
-    {
-        return view('atleta.atividades',[
+        return view('atleta.home',[
             'atividades' => auth()->user()->activities,
+            'atividades_reprovadas' => auth()->user()->activities()->withOutGlobalScopes()->whereStatus('Reprovado')->get(),
         ]);
     }
 
     public function postAtividades(Request $request)
     {
-        auth()->user()->activities->map(function ($activitie) use ($request){
-            $activitie->active = in_array($activitie->id, $request->atividades??[]);
+        $data = '';
+        auth()->user()->activities->map(function ($activitie) {
+            $activitie->active = false;
             $activitie->save();
+        });
+        auth()->user()->activities->map(function ($activitie) use ($request, &$data) {
+            if (
+                in_array($activitie->id, $request->atividades??[]) && $data != $activitie->data
+                && auth()->user()->km_int+20000 >= auth()->user()->total_distance+$activitie->distance
+            ) {
+                $data = $activitie->data;
+                $activitie->active = true;
+                $activitie->save();
+            }
         });
         return [
             'message' => 'Ranking atualizado com sucesso!',
-            'redirect' => route('atleta.atividades'),
+            'redirect' => route('atleta'),
         ];
+    }
+
+    public function ranking()
+    {
+        return view('atleta.ranking', [
+            'ciclistas' => Subscription::ranking(),
+        ]);
     }
 
 }
